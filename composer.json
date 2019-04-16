@@ -1,0 +1,26 @@
+{
+    "name": "lewton/framework",
+    "description": "framework",
+    "type": "framework",
+    "keywords": [
+        "framework"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jiangbo",
+            "email": "420092586@qq.com",
+            "homepage": "https://github.com/lewton",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "lewton\\framework\\": "src/"
+        }
+    }
+}
