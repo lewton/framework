@@ -16,11 +16,18 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=7.0.0"
+    },
+    "repositories": {
+      "packagist": {
+        "type": "composer",
+        "url": "https://packagist.phpcomposer.com"
+      }
     },
     "autoload": {
         "psr-4": {
-            "lewton\\framework\\": "src/"
+            "lewton\\framework\\": "src/",
+            "test\\": "test/application/"
         }
     }
 }

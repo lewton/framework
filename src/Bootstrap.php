@@ -10,6 +10,7 @@ namespace lewton\framework;
 
 use lewton\framework\event\EventBase;
 use lewton\framework\util\Hump;
+use lewton\framework\lang\LangBase;
 
 final class Bootstrap {
 
@@ -19,13 +20,18 @@ final class Bootstrap {
     private $config = [
         'level' => 3,
         'route_key' => 's',
+        'app' => 'app',
+        'controllers' => 'controllers'
     ];
     private $route = [];
     /**
      * 构造方法
      * @param array $options 配置
      */
-    public function __construct($options = [],EventBase $eventInstance = null){
+    public function __construct($options = [],EventBase $eventInstance = null,LangBase $langInstance = null){
+        if(is_null($langInstance)){
+            $langInstance = new \lewton\framework\lang\LangEn();
+        }
         if(is_null($eventInstance)){
             $eventInstance = new Event();
         }
@@ -36,7 +42,8 @@ final class Bootstrap {
         // 逻辑层级
         $level = intval($this->config['level']);
         if($level < 2){
-            throw new \Exception("Level must be greater than 2");
+            // level必须大于2
+            throw new \Exception($langInstance::SYS_MSG_LEVEL);
         }
 
         // 获取 $_GET['s']
@@ -50,7 +57,7 @@ final class Bootstrap {
         $routeLevel = count($this->route);
 
 //        $cName = "\\app\\controllers\\";
-        $cName = ["app","controllers"];
+        $cName = [$this->config['app'],$this->config['controllers']];
         $rParam = [];
         if($routeLevel == 1){
             // /index
@@ -82,6 +89,10 @@ final class Bootstrap {
         $c = "\\".implode("\\",$cName);
 
         $instance = new $c();
+        if(!method_exists($instance,$aName)){
+            // 当前访问的action不存在
+            throw new \Exception($langInstance::SYS_MSG_ACTION);
+        }
         try{
             $eventInstance::onBefore();
             Response::getInstance($instance->$aName(Request::getInstance()));
