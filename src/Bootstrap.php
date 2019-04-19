@@ -87,7 +87,7 @@ final class Bootstrap {
             Response::getInstance($instance->$aName(Request::getInstance()));
             $eventInstance::onAfter();
         }catch (\Throwable $e){
-            $eventInstance::onThrowable();
+            $eventInstance::onThrowable($e);
             if(method_exists($instance,"onThrowable")){
                 $instance->onThrowable($e);
             }
