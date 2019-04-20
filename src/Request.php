@@ -8,19 +8,32 @@
  */
 namespace lewton\framework;
 
-class Request {
+final class Request {
 
     use Singleton;
 
-    // php://input
-    protected $input;
+    private $_controller = "";
+    private $_action = "";
+
     /**
      * 构造函数
      * @access public
      */
     public function __construct(){
-        // 保存 php://input
-        $this->input = file_get_contents('php://input');
+
+    }
+
+    public function controller(string $controller = ""): string {
+        if($this->_controller === ""){
+            $this->_controller = $controller;
+        }
+        return $this->_controller;
+    }
+    public function action(string $action = ""): string {
+        if($this->_action === ""){
+            $this->_action = $action;
+        }
+        return $this->_action;
     }
 
     /**

@@ -6,9 +6,7 @@
  * Date: 2019/3/7
  * Time: 13:32
  */
-namespace lewton\framework;
-
-use lewton\framework\error\Handler;
+namespace lewton\framework\error;
 
 class Error implements Handler {
     public static function fatalError(){

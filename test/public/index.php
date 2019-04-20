@@ -13,9 +13,9 @@ require "../../vendor/autoload.php";
 error_reporting(0);
 
 // 设定错误和异常处理
-register_shutdown_function('\lewton\framework\Error::fatalError');
-set_error_handler('\lewton\framework\Error::appError');
-set_exception_handler('\lewton\framework\Error::appException');
+register_shutdown_function('\lewton\framework\error\Error::fatalError');
+set_error_handler('\lewton\framework\error\Error::appError');
+set_exception_handler('\lewton\framework\error\Error::appException');
 
 //use lewton\framework\Bootstrap;
 
@@ -25,9 +25,9 @@ set_exception_handler('\lewton\framework\Error::appException');
     'app'=>'test'
 ],
 // 事件
-new \lewton\framework\Event,
+\test\event\Event::getInstance(),
 // 语言
-new \lewton\framework\lang\LangZhcn
+\lewton\framework\lang\LangZhcn::getInstance()
 );
 
 //require "../vendor/autoload.php";

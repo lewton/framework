@@ -8,6 +8,7 @@
  */
 namespace lewton\framework;
 
+use lewton\framework\event\Event;
 use lewton\framework\event\EventBase;
 use lewton\framework\util\Hump;
 use lewton\framework\lang\LangBase;
@@ -21,8 +22,13 @@ final class Bootstrap {
         'level' => 3,
         'route_key' => 's',
         'app' => 'app',
-        'controllers' => 'controllers'
+        'controllers' => 'controllers',
+        'def_c' => 'Index',
+        'def_a' => 'index',
+        'try_handler' => 'onThrowable'
     ];
+
+    // 路由
     private $route = [];
     /**
      * 构造方法
@@ -35,6 +41,7 @@ final class Bootstrap {
         if(is_null($eventInstance)){
             $eventInstance = new Event();
         }
+        // 用于单例初始化数据
         $eventInstance::onConfig();
         /* 获取配置 */
         $this->config   =   array_merge($this->config, $options);
@@ -50,7 +57,7 @@ final class Bootstrap {
         if(isset($_GET[$this->config['route_key']])){
             $this->route = explode("/",trim($_GET[$this->config['route_key']],"/"));
         }else{
-            $this->route[] = 'Index';
+            $this->route[] = $this->config['def_c'];
         }
 
         // 路由层级
@@ -62,7 +69,7 @@ final class Bootstrap {
         if($routeLevel == 1){
             // /index
             $cName[] = Hump::camel($this->route[0]);
-            $aName = 'index';
+            $aName = $this->config['def_a'];
         }else if($routeLevel > $level){
             // /a/b/c/d/e/f/g
             for($i=0;$i<$level-2;$i++){
@@ -86,21 +93,34 @@ final class Bootstrap {
             $aName = Hump::camel($pop1);
         }
 
+        // 控制器
         $c = "\\".implode("\\",$cName);
+        // 方法
+        $a = lcfirst($aName);
 
-        $instance = new $c();
-        if(!method_exists($instance,$aName)){
+        // 反射实例化控制器类
+        $reflectionClass = new \ReflectionClass($c);
+        $cInstance = $reflectionClass->newInstance(Request::getInstance());
+
+        if(!method_exists($cInstance,$a)){
             // 当前访问的action不存在
             throw new \Exception($langInstance::SYS_MSG_ACTION);
         }
+
         try{
+            // 设置请求路由
+            Request::getInstance()->controller($c);
+            Request::getInstance()->action($a);
+            // 开始执行业务
             $eventInstance::onBefore();
-            Response::getInstance($instance->$aName(Request::getInstance()));
+            // call_user_func_array([$cInstance,$a],[param1,param2]);
+            // call_user_func([$cInstance,$a],param1,param2);
+            Response::getInstance( call_user_func([$cInstance,$a]) );
             $eventInstance::onAfter();
         }catch (\Throwable $e){
             $eventInstance::onThrowable($e);
-            if(method_exists($instance,"onThrowable")){
-                $instance->onThrowable($e);
+            if(method_exists($cInstance,$this->config['try_handler'])){
+                call_user_func([$cInstance,$this->config['try_handler']],$e);
             }
         }
 

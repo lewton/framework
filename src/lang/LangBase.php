@@ -8,6 +8,8 @@
  */
 namespace lewton\framework\lang;
 
-abstract class LangBase {
-	
+use lewton\framework\SingletonGlobal;
+
+abstract class LangBase extends SingletonGlobal {
+
 }

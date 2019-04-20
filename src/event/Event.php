@@ -6,9 +6,7 @@
  * Date: 2019/4/17
  * Time: 17:23
  */
-namespace lewton\framework;
-
-use lewton\framework\event\EventBase;
+namespace lewton\framework\event;
 
 class Event extends EventBase {
     // 全局配置

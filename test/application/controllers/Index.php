@@ -7,8 +7,15 @@
  * Time: 14:58
  */
 namespace test\controllers;
-class Index {
+use lewton\framework\Controller;
+use test\config\DbConfig;
+
+class Index extends Controller {
     public function index(){
-        echo "index";
+        /**
+         * @var $dbconfig \test\config\DbConfig
+         */
+        $dbconfig = DbConfig::getInstance();
+        var_dump($dbconfig->get('group.b.c'));
     }
 }

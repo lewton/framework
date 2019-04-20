@@ -8,7 +8,9 @@
  */
 namespace lewton\framework\event;
 
-abstract class EventBase {
+use lewton\framework\SingletonGlobal;
+
+abstract class EventBase extends SingletonGlobal {
     // 全局配置
     abstract public static function onConfig(): array;
     // 运行前
