@@ -12,7 +12,7 @@ use lewton\framework\SingletonGlobal;
 
 abstract class EventBase extends SingletonGlobal {
     // 全局配置
-    abstract public static function onConfig(): array;
+    abstract public static function onConfig(array $config);
     // 运行前
     abstract public static function onBefore();
     // 运行后

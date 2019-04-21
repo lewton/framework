@@ -41,10 +41,10 @@ final class Bootstrap {
         if(is_null($eventInstance)){
             $eventInstance = new Event();
         }
-        // 用于单例初始化数据
-        $eventInstance::onConfig();
         /* 获取配置 */
         $this->config   =   array_merge($this->config, $options);
+        // 用于单例初始化数据
+        $eventInstance::onConfig($this->config);
 
         // 逻辑层级
         $level = intval($this->config['level']);

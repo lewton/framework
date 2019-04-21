@@ -12,7 +12,7 @@ use lewton\framework\event\EventBase;
 
 class Event extends EventBase {
     // 全局配置
-    public static function onConfig(): array{
+    public static function onConfig(array $config){
         return [];
     }
     // 运行前
