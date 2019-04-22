@@ -8,20 +8,12 @@
  */
 namespace lewton\framework;
 
-final class Request {
+class Request {
 
     use Singleton;
 
     private $_controller = "";
     private $_action = "";
-
-    /**
-     * 构造函数
-     * @access public
-     */
-    public function __construct(){
-
-    }
 
     /**
      * 获取控制器

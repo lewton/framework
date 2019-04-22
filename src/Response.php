@@ -8,8 +8,14 @@
  */
 namespace lewton\framework;
 
-class Response {
+use lewton\framework\response\ResponseAbstract;
+use lewton\framework\response\ResponseObject;
+
+class Response extends ResponseAbstract {
 
     use Singleton;
 
+    public function output(ResponseObject $object){
+        // TODO: Implement output() method.
+    }
 }

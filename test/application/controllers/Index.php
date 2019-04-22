@@ -12,10 +12,20 @@ use test\config\DbConfig;
 
 class Index extends Controller {
     public function index(){
+        echo 'index';
+    }
+
+    public function getConfig(){
         /**
          * @var $dbconfig \test\config\DbConfig
          */
         $dbconfig = DbConfig::getInstance();
         var_dump($dbconfig->get('group.b.c'));
+
+        return $this->responseObject([]);
+    }
+    public function send_http_code(){
+        // 发送状态码
+        http_response_code(304);
     }
 }

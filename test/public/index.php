@@ -17,18 +17,37 @@ register_shutdown_function('\lewton\framework\error\Error::fatalError');
 set_error_handler('\lewton\framework\error\Error::appError');
 set_exception_handler('\lewton\framework\error\Error::appException');
 
-//use lewton\framework\Bootstrap;
+use lewton\framework\Bootstrap;
 
-\lewton\framework\Bootstrap::getInstance(
-// 配置
-[
+// 初始化
+Bootstrap::getInstance([
     'app'=>'test'
-],
-// 事件
-\test\event\Event::getInstance(),
-// 语言
-\lewton\framework\lang\LangZhcn::getInstance()
+]);
+
+// 请求定义
+Bootstrap::getInstance()->requestDefine(
+    \test\request\Request::class
 );
+
+// 响应定义
+Bootstrap::getInstance()->responseDefine(
+    \test\response\Response::class
+);
+
+// 全局事件定义
+Bootstrap::getInstance()->eventDefine(
+    \test\event\Event::class
+);
+
+// 语言定义
+Bootstrap::getInstance()->langDefine(
+    \lewton\framework\lang\LangZhcn::class
+);
+
+// 运行
+Bootstrap::getInstance()->run();
+
+exit;
 
 //require "../vendor/autoload.php";
 //

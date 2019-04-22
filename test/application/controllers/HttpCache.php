@@ -11,6 +11,10 @@ namespace test\controllers;
 use lewton\framework\Controller;
 
 class HttpCache extends Controller {
+    public function index(){
+        // TODO: Implement index() method.
+    }
+
     static $_status = array(
         // Informational 1xx
         100 => 'Continue',
